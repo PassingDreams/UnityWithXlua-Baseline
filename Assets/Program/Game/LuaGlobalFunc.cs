@@ -14,6 +14,14 @@ namespace LuaSharp
             hintWnd.gameObject.SetActive(true);
             hintWnd.SetText(s);
         }
+        public static void PrintParams(params object[] infos)
+        {
+            Ueels.Core.Debug.Logger.PrintParams(infos);
+        }
+        public static void ConsoleLog(string msg)
+        {
+            Debug.Log(msg);
+        }
 
     }
         
