@@ -1,1 +1,2 @@
  require("./CommonDefs")
+ require("./AllWndDefs")

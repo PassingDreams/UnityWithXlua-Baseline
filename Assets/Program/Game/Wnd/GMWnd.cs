@@ -8,7 +8,7 @@ using Button = UnityEngine.UI.Button;
 using Logger = Ueels.Core.Debug.Logger;
 
 
-public class GMWnd : WndBase
+public class GMWnd : SingletonWnd<GMWnd>
 {
     // Start is called before the first frame update
     private Button runBtn;
@@ -71,7 +71,6 @@ public class GMWnd : WndBase
     void OnApplicationQuit()
     {
         memBuffer.cmdsBuffer[curSelectingTabIndex] = inputField.text;
-        Logger.PrintCollection(memBuffer.cmdsBuffer);
         JsonSaveManager.SaveDataTo(memBuffer,"GMWndInfoDoc");
     }
 
