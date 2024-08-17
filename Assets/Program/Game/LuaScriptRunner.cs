@@ -5,19 +5,19 @@ using Ueels.Core;
 using UnityEngine;
 using XLua;
 
-public class LuaScriptRunner : MonoBehaviour
+public class LuaScriptRunner : MonoSingleton<LuaScriptRunner>
 {
-    private static LuaEnv instance;
+    private static LuaEnv luaEnvInstance;
     
     public static LuaEnv LuaEnvInstance
     {
         get
         {
-            if (instance == null)
+            if (luaEnvInstance == null)
             {
-                instance = new LuaEnv();
+                luaEnvInstance = new LuaEnv();
             }
-            return instance;
+            return luaEnvInstance;
         }
     }
 
@@ -43,6 +43,11 @@ public class LuaScriptRunner : MonoBehaviour
     {
         InputManager.Instance.Update();
         LuaCall("OnUpdate");
+    }
+    
+    void LateUpdate()
+    {
+        LuaCall("OnUpdateEnd");
     }
     private LuaFunction externalCallHandler;
     public void LuaCall(params object[] args)

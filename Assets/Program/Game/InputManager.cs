@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Ueels.Core;
@@ -15,6 +16,16 @@ public class InputManager : Singleton<InputManager>
                 GMWnd.Instance.Toggle();
             }
         }
-        
+
+        if (Input.anyKeyDown)
+        {
+            foreach (KeyCode keyCode in Enum.GetValues((typeof(KeyCode))))
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    LuaScriptRunner.Instance.LuaCall("OnKeyDown",(int)keyCode);
+                }
+            }
+        }
     }
 }

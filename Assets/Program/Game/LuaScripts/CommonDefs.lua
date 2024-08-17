@@ -48,16 +48,21 @@ end
 
 -------------------------------------外部调用
 g_ExternalCalledFuncTable={}
-function LuaRegisterFunc2CSarp(callName,func)
+function LuaRegisterFunc2CSarp(callName,funcName,luaObj)
+    assert(type(callName)=="string")
+    assert(type(funcName)=="string")
+    luaObj = luaObj or _G
     if g_ExternalCalledFuncTable[callName] then
         error("重复注册g_ExternalCalledFuncTable")
     end
-    g_ExternalCalledFuncTable[callName]=func
+    g_ExternalCalledFuncTable[callName]={luaObj,funcName}
 end
 function ExternalCall(funcName,...)
-    if not g_ExternalCalledFuncTable[funcName] then
+    local callTable=g_ExternalCalledFuncTable[funcName]
+    if not callTable then
         error("g_ExternalCalledFuncTable未定义："..funcName)
         return
     end
-    g_ExternalCalledFuncTable[funcName](...)
+    local luaObj,funcName = callTable[1],callTable[2]
+    luaObj[funcName](...)
 end
