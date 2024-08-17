@@ -23,4 +23,9 @@ public class SingletonWnd<T> : WndBase where T:SingletonWnd<T>,new()
         instance = (T) this;
     }
 
+    public void Toggle()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
+
 }

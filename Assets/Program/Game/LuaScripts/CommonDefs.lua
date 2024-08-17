@@ -45,3 +45,19 @@ function _ldv(t,info,cnt,indent)
         end
     end
 end
+
+-------------------------------------外部调用
+g_ExternalCalledFuncTable={}
+function LuaRegisterFunc2CSarp(callName,func)
+    if g_ExternalCalledFuncTable[callName] then
+        error("重复注册g_ExternalCalledFuncTable")
+    end
+    g_ExternalCalledFuncTable[callName]=func
+end
+function ExternalCall(funcName,...)
+    if not g_ExternalCalledFuncTable[funcName] then
+        error("g_ExternalCalledFuncTable未定义："..funcName)
+        return
+    end
+    g_ExternalCalledFuncTable[funcName](...)
+end

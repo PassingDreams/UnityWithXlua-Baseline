@@ -61,7 +61,7 @@ public class GMWnd : SingletonWnd<GMWnd>
     void RunContentCode()
     {
         var text=inputField.text;
-        LuaScriptRunner.Instance.DoString(text);
+        LuaScriptRunner.LuaEnvInstance.DoString(text);
     }
     
     void OnClickTabBtn(int btnIdx)

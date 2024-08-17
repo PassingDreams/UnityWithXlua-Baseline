@@ -14,6 +14,7 @@ namespace Ueels.Core
                     if (instance == null)
                     {
                         Logger.PrintError("Empty Singleton:" + typeof(T));
+                        instance = new T();
                     }
         
                     return instance;
