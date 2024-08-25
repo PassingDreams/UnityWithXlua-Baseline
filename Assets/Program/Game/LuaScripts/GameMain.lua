@@ -4,12 +4,18 @@ function OnUpdate()
 end
 
 function OnUpdateEnd()
-
 end
 
 
-function OnKeyDown(keycode)
-	print(keycode) --TODO:把keycode枚举搬过来，然后做一份lookup table，在每帧结束清理下
+-----------------Input Handle
+g_InputManager=CS.InputManager.Instance
+
+function OnKeyDown()
+	if g_InputManager:GetKey(EnumKeyCode.LeftControl) then
+		if g_InputManager:GetKeyDown(EnumKeyCode.G) then
+			CS.GMWnd.Instance:Toggle()
+		end
+	end
 end
 
 

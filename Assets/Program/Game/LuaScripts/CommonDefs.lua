@@ -64,5 +64,9 @@ function ExternalCall(funcName,...)
         return
     end
     local luaObj,funcName = callTable[1],callTable[2]
+    if not luaObj[funcName] then
+        error("函数"..funcName.."未定义")
+        return
+    end
     luaObj[funcName](...)
 end

@@ -1,3 +1,4 @@
+ require("./EnumDefs")
  require("./CommonDefs")
  require("./AllWndDefs")
  

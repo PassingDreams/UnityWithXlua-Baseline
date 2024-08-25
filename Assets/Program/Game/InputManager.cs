@@ -7,25 +7,21 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
+    private List<int> downKeyBuffer = new List<int>();
+
+    public bool GetKey(int keyCode)
+    {
+        return Input.GetKey((KeyCode)keyCode);
+    }
+    public bool GetKeyDown(int keyCode)
+    {
+        return Input.GetKeyDown((KeyCode)keyCode);
+    }
     public void Update()
     {
-        if ( Input.GetKey(KeyCode.LeftControl))
-        {
-            if ( Input.GetKeyDown(KeyCode.G))
-            {
-                GMWnd.Instance.Toggle();
-            }
-        }
-
         if (Input.anyKeyDown)
         {
-            foreach (KeyCode keyCode in Enum.GetValues((typeof(KeyCode))))
-            {
-                if (Input.GetKeyDown(keyCode))
-                {
-                    LuaScriptRunner.Instance.LuaCall("OnKeyDown",(int)keyCode);
-                }
-            }
+            LuaScriptRunner.Instance.LuaCall("OnKeyDown");
         }
     }
 }
