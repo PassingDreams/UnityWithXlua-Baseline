@@ -13,4 +13,10 @@ public class GasRunner : Singleton<GasRunner>
         localServer.Listen();
         
     }
+    
+    public void Close()
+    {
+        localServer?.Stop();
+        
+    }
 }

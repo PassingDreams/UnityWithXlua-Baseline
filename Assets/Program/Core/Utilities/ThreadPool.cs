@@ -10,14 +10,13 @@ using UnityEngine;
 public class ThreadPool : Ueels.Core.Singleton<ThreadPool>
 {
     private List<Thread> pool=new List<Thread>();
-    public Thread GetThread(Action func)
+    public Thread GetThread(Action<object> func) //启动可带一个参数对象
     {
-        ThreadStart start = () =>
+        ParameterizedThreadStart start = (obj) =>
         {
-            func();
+            func(obj);
         };
         Thread runner=new Thread(start);
-        runner.Start();
         pool.Add(runner);
         return runner;
     }

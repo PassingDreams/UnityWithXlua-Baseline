@@ -15,6 +15,7 @@ public class ProgramManager : MonoBehaviour
     void OnApplicationQuit()
     {
         Debug.Log("程序退出中...");
+        GasRunner.Instance.Close();
         ThreadPool.Instance.StopAll();
     }
 }

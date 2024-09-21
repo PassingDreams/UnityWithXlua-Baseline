@@ -31,7 +31,7 @@ public class LocalServer
         
         Debug.Log($"[{localhost}:{port}]Server started, waiting for connections...");
 
-        listenThread=ThreadPool.Instance.GetThread(() =>
+        listenThread=ThreadPool.Instance.GetThread((obj) =>
         {
             //TODO:tick 包一下可以不断监听新的连接请求
             // 接受客户端连接
@@ -39,13 +39,14 @@ public class LocalServer
             Debug.Log($"Accepted connection from {clientSocket.RemoteEndPoint}");
 
             // 为每个客户端连接启动一个新的线程进行处理
-            Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
+            Thread clientThread =ThreadPool.Instance.GetThread(HandleClient);
             clientThread.Start(clientSocket);
-
         });
+        listenThread.Start();
     }
     public void Stop()
     {
+        Debug.Log("结束LocalHost服务");
         listenSocket?.Close();
         listenSocket = null;
         listenThread?.Abort();
@@ -67,7 +68,7 @@ public class LocalServer
                 Array.Clear(buffer,0,buffer.Length); //清空buffer
                 
                 //Handle Msg
-                Console.WriteLine($"Received: {receivedText}");
+                Debug.Log($"Received: {receivedText}");
                 
                 // 回显收到的数据
                 //clientSocket.Send(buffer, bytesRead, SocketFlags.None);
