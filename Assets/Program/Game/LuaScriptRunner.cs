@@ -27,8 +27,10 @@ public class LuaScriptRunner : MonoSingleton<LuaScriptRunner>
         package.path='./Assets/Program/Game/LuaScripts/?.lua'
         require('/LuaMainInc')
         ";
+        
+        print("Lua Load Start>>>");
         LuaEnvInstance.DoString(boot);
-        print("Lua Load OK");
+        print("Lua Load OK<<<");
     }
 
     void Awake()
