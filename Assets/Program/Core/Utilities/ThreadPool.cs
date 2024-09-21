@@ -25,7 +25,10 @@ public class ThreadPool : Ueels.Core.Singleton<ThreadPool>
     {
         foreach (var thread in pool)
         {
-            thread?.Abort();
+            if (thread!=null)
+            {
+                thread?.Abort();
+            }
         }
         Debug.Log("终结线程个数："+pool.Count);
         pool.Clear();

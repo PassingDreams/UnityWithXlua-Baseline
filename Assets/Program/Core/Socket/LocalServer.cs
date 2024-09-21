@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 /// <summary>
@@ -33,14 +34,23 @@ public class LocalServer
 
         listenThread=ThreadPool.Instance.GetThread((obj) =>
         {
-            //TODO:tick 包一下可以不断监听新的连接请求
             // 接受客户端连接
-            Socket clientSocket = listenSocket.Accept(); //这里会同步阻断线程，等待连接
-            Debug.Log($"Accepted connection from {clientSocket.RemoteEndPoint}");
+            try
+            {
+                while (true)
+                {
+                    Socket clientSocket = listenSocket.Accept(); //这里会同步阻断线程，等待连接
+                    Debug.Log($"Accepted connection from {clientSocket.RemoteEndPoint}");
 
-            // 为每个客户端连接启动一个新的线程进行处理
-            Thread clientThread =ThreadPool.Instance.GetThread(HandleClient);
-            clientThread.Start(clientSocket);
+                    // 为每个客户端连接启动一个新的线程进行处理
+                    Thread clientThread =ThreadPool.Instance.GetThread(HandleClient);
+                    clientThread.Start(clientSocket);
+                }
+            }
+            catch (SocketException e)
+            {
+                
+            }
         });
         listenThread.Start();
     }
@@ -62,7 +72,7 @@ public class LocalServer
 
         try
         {
-            while ((bytesRead = clientSocket.Receive(buffer)) > 0)
+            while ((bytesRead = clientSocket.Receive(buffer)) > 0) //Receive方法将阻塞直到有可用数据，因此它永远不会执行一个无所事事的热循环
             {
                 string receivedText = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Array.Clear(buffer,0,buffer.Length); //清空buffer
